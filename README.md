@@ -25,7 +25,7 @@ With `adr-init`, the directory structure can be initialized. Default, a subdirce
 adr-init foo
 ```
 
-In this case, adrs will be stored in a local folder `foo/`. In the main directory, a file called `.adr-dir` is generated to indicate to `adr-tools` that a different location than the default `doc/adr/` is used. This behaviour was copied from, and should be compatible with the original [adr-tools][]. `adr-init` always creates a new adr to say that adrs will be used. 
+In this case, adrs will be stored in a local folder `foo/`. In the main directory, a file called `.adr-dir` is generated to indicate to `adr-tools` that a different location than the default `doc/adr/` is used. This behaviour was copied from, and should be compatible with the original [adr-tools][]. `adr-init` always creates a new adr to say that adrs will be used.
 
 ### adr-new
 
@@ -36,24 +36,24 @@ A subject should be given for a new adr:
 > adr-list
 doc/adr/0001-record-architecture-decisions.md
 doc/adr/0002-create-equal-animals.md
-> 
+>
 ```
-ADRs can be superceded from the command line using the `-s` option, and be linked by using the `-l` option. 
+ADRs can be superseded from the command line using the `-s` option, and be linked by using the `-l` option.
 
 From the documentation of [adr-tools][]:
 
-> # Multiple -s and -l options can be given, so that the new ADR can supercede
+> # Multiple -s and -l options can be given, so that the new ADR can supersede
 > # or link to multiple existing ADRs.
 > ##
 > # E.g. to create a new ADR with the title "Use MySQL Database":
 > ##
 > # adr new Use MySQL Database
 > ##
-> # E.g. to create a new ADR that supercedes ADR 12:
+> # E.g. to create a new ADR that supersedes ADR 12:
 > ##
 > # adr new -s 12 Use PostgreSQL Database
 > ##
-> # E.g. to create a new ADR that supercedes ADRs 3 and 4, and amends ADR 5:
+> # E.g. to create a new ADR that supersedes ADRs 3 and 4, and amends ADR 5:
 > ##
 > # adr new -s 3 -s 4 -l "5:Amends:Amended by" Use Riak CRDTs to cope with scale
 > ##

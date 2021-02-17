@@ -5,7 +5,7 @@ from shutil import copyfile
 from datetime import date
 
 #by default, do not print.
-# Most hints on using variables came from this page: https://stackoverflow.com/questions/1977362/how-to-create-module-wide-variables-in-python 
+# Most hints on using variables came from this page: https://stackoverflow.com/questions/1977362/how-to-create-module-wide-variables-in-python
 # variable is a list, because lists are mutable.
 __adr_verbose = [False]
 
@@ -25,7 +25,7 @@ def set_adr_verbosity(verbosity):
 # Original bash implementation generates strings with paths to
 # bin and template dir (both the same).
 
-# In this python implementation I've changed this to a 
+# In this python implementation I've changed this to a
 # dictionary. I think this is more future proof and way
 # more 'pythonic' and less error prone.
 
@@ -36,7 +36,7 @@ def adr_print(text):
 def adr_config():
     dir_path = os.path.dirname(os.path.realpath(__file__))
     config = {"adr_bin_dir"     : dir_path ,
-              "adr_template_dir": dir_path 
+              "adr_template_dir": dir_path
     }
     return(config)
 
@@ -50,18 +50,18 @@ def adr_init(config, localpath, dirname):
         with open('.adr-dir','w') as f:
             f.write(dirname)
 # create subdirectories
-# https://stackabuse.com/creating-and-deleting-directories-with-python/        
-    try:  
+# https://stackabuse.com/creating-and-deleting-directories-with-python/
+    try:
         os.makedirs(dirname)
-    except OSError:  
+    except OSError:
         print ("Creation of the directory %s failed" % dirname)
-    else:  
+    else:
         print ("Successfully created the directory %s" % dirname)
         adr_new(config, localpath, 'record-architecture-decisions')
     return(0)
 
-# This function is used to read the .adr-dir file (written in adr_init), to determine the relative path for the 
-# adrs. default is /doc/adr/ . 
+# This function is used to read the .adr-dir file (written in adr_init), to determine the relative path for the
+# adrs. default is /doc/adr/ .
 # In order to find this file in another directory, an optional directory can be passed.
 def find_alternate_dir(dir = 'doc/adr/'):
     directory = dir
@@ -82,13 +82,13 @@ def adr_new(config, localpath, title, superseded = None, links = None):
 
     # directory for the template
     src= config["adr_template_dir"]+'/template.md'
-    
+
     #check input argument for the ADR title
     try:
-        # check if title can be converted to string, and 
+        # check if title can be converted to string, and
         # replace spaces with dashes on the go
         adr_print(title)
-        
+
         if type(title) == list:
             title_checked = "-".join(title).replace(' ','-')
         elif type(title) == str:
@@ -96,7 +96,7 @@ def adr_new(config, localpath, title, superseded = None, links = None):
     except ValueError:
         result = 'Title was no string'
         print ("adr-new had no valid input for the title")
-    
+
     if (result == 'no error' ):
         # location of adrs
         adr_dir = _adr_dir()
@@ -116,30 +116,30 @@ def adr_new(config, localpath, title, superseded = None, links = None):
         # Format number to string with 4 characters
         # https://stackoverflow.com/questions/11714859/how-to-display-the-first-few-characters-of-a-string-in-python
         adr_index_text = '{0:04d}'.format(adr_index)
- 
+
         # combine data to make destination path
         dst =  os.path.join(adr_dir , adr_index_text + '-' + title_checked + '.md')
         adr_print('adr-new; ' + src + ' ' + dst)
         # copy template to destination directory, with correct title
         copyfile(src, dst)
         adr_write_number_and_header(dst, adr_index_text, title_checked)
-        
+
         #Handle optional commands, -s and -l
 
-        # -s 
+        # -s
 
         if superseded != None:
-            for supersede in superseded:         
+            for supersede in superseded:
                 supersede_text =supersede[0]
                 # index zero of return value of _adr_file is the number of the adr
                 adr_print('adr-new; supersede_text = ' + supersede_text +  ' , adr is ' + _adr_file(supersede_text)[1])
                 _adr_remove_status('Accepted', _adr_file(supersede_text)[1])
-                _adr_add_link(supersede_text, 'Superceded by', _adr_file(dst)[1])
-                _adr_add_link(_adr_file(dst)[1], 'Supercedes', supersede_text )
-        
-        # -l 
+                _adr_add_link(supersede_text, 'Superseded by', _adr_file(dst)[1])
+                _adr_add_link(_adr_file(dst)[1], 'Supersedes', supersede_text )
 
-        # example: -l "5:Amends:Amended by" 
+        # -l
+
+        # example: -l "5:Amends:Amended by"
         if links != None:
              for linkadr in links:
                 try:
@@ -178,7 +178,7 @@ def adr_write_number_and_header(dst,adr_index,adr_title=None):
         elif fileinput.filelineno() == 7:
             print('Accepted', end='\n')
         else:
-        #keep existing content 
+        #keep existing content
             print(line, end='')
     fileinput.close()
     #print(test)
@@ -212,7 +212,7 @@ def _adr_add_link(source, linktype, target):
 
 # This is a very ugly state machine, based on the original awk application in adr-tools
 # Probably it can be rewritten much better by someone skilled in the art of Python.
-# Purpose of the function is to remove the status 'status' from the adr file. As far as I can judge, this 
+# Purpose of the function is to remove the status 'status' from the adr file. As far as I can judge, this
 # is only used in adr-new, to remove the 'Accepted' status.
 
 def _adr_remove_status(status, adr):
@@ -276,18 +276,18 @@ def _adr_dir():
             #default value is 'doc/adr/'
             newdir = 'doc/adr/'
             break
-        
+
         dir = newdir
     # original adr-tools returns relative path w.r.t path from which the function was called.
     return(os.path.relpath(newdir,os.getcwd()))
 
 
-# adr_file returns first file that contains the text. Since list_of_adrs returns a 
-# sorted list, searching for the ADR number will generally yield the correct ADR. 
-# 
+# adr_file returns first file that contains the text. Since list_of_adrs returns a
+# sorted list, searching for the ADR number will generally yield the correct ADR.
+#
 def _adr_file(adr_text):
     list_of_adrs = adr_list(_adr_dir())
-    # string or integer input 
+    # string or integer input
     if type(adr_text) is int:
         adr_text = str(adr_text)
     for adr in list_of_adrs:
@@ -305,7 +305,7 @@ def _adr_title(text):
     adr = _adr_file(text)
     adr_print('_adr_title; number is ' + str(adr[0]) + ', adr is '+  adr[1] + 'path is '+ os.getcwd())
     with open(adr[1],'r') as f:
-        adrline = f.readline()   
+        adrline = f.readline()
         adr_print('_adr_title; line is ')
     # Strip markdown header 1 (#), and strip newline
     return(adrline[2:-1])
@@ -323,9 +323,9 @@ def adr_list(dir):
     # make list of adr files. All files *not* starting with 4 numbers are skipped.
     for file in onlyfiles:
         try:
-            # if this fails, the 'except' will be executed, and actions past this line will be skipped 
+            # if this fails, the 'except' will be executed, and actions past this line will be skipped
             adr_list.append(file)
-        except: 
+        except:
             adr_print (file + " is not a valid ADR filename")
             None
     adr_paths = list()

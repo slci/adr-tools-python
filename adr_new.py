@@ -10,7 +10,7 @@ import sys
 
 # comment from original Bash version:
 
-# usage: adr new [-s SUPERCEDED] [-l TARGET:LINK:REVERSE-LINK] TITLE_TEXT...
+# usage: adr new [-s SUPERSEDED] [-l TARGET:LINK:REVERSE-LINK] TITLE_TEXT...
 ##
 # Creates a new, numbered ADR.  The TITLE_TEXT arguments are concatenated to
 # form the title of the new ADR.  The ADR is opened for editing in the
@@ -27,11 +27,11 @@ import sys
 ##
 # Options:
 ##
-# -s SUPERCEDED   A reference (number or partial filename) of a previous
-# decision that the new decision supercedes. A Markdown link
-# to the superceded ADR is inserted into the Status section.
-# The status of the superceded ADR is changed to record that
-# it has been superceded by the new ADR.
+# -s SUPERSEDED   A reference (number or partial filename) of a previous
+# decision that the new decision supersedes. A Markdown link
+# to the superseded ADR is inserted into the Status section.
+# The status of the superseded ADR is changed to record that
+# it has been superseded by the new ADR.
 ##
 # -l TARGET:LINK:REVERSE-LINK
 # Links the new ADR to a previous ADR.
@@ -41,18 +41,18 @@ import sys
 # REVERSE-LINK is the description of the link created in the
 # existing ADR that will refer to the new ADR.
 ##
-# Multiple -s and -l options can be given, so that the new ADR can supercede
+# Multiple -s and -l options can be given, so that the new ADR can supersede
 # or link to multiple existing ADRs.
 ##
 # E.g. to create a new ADR with the title "Use MySQL Database":
 ##
 # adr new Use MySQL Database
 ##
-# E.g. to create a new ADR that supercedes ADR 12:
+# E.g. to create a new ADR that supersedes ADR 12:
 ##
 # adr new -s 12 Use PostgreSQL Database
 ##
-# E.g. to create a new ADR that supercedes ADRs 3 and 4, and amends ADR 5:
+# E.g. to create a new ADR that supersedes ADRs 3 and 4, and amends ADR 5:
 ##
 # adr new -s 3 -s 4 -l "5:Amends:Amended by" Use Riak CRDTs to cope with scale
 ##
@@ -69,7 +69,7 @@ def main(args=None):
     parser.add_argument('title_adr', metavar='title of ADR',  nargs='+', help='Title of the ADR')
 
     # -s is option with 1 argument (nargs = 1)
-    parser.add_argument('-s', dest='superseded', nargs=1, action='append', help='A reference (number or partial filename) of a previous decision that the new decision supercedes')
+    parser.add_argument('-s', dest='superseded', nargs=1, action='append', help='A reference (number or partial filename) of a previous decision that the new decision supersedes')
 
     # -l is option with 1 argument
     parser.add_argument('-l', dest='linkadr', nargs=1,  help='TARGET:LINK:REVERSE-LINK, Links the new ADR to a previous ADR.  TARGET is a reference (number or partial filename) of a previous decision. LINK is the description of the link created in the new ADR. REVERSE-LINK is the description of the link created in the existing ADR that will refer to the new ADR.')

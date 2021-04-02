@@ -105,10 +105,12 @@ def adr_new(config, localpath, title, superseded = None, links = None):
         # first, find last item in adr_list
         try:
             highest_file_name = adr_list(adr_dir)[-1]
+            adr_print('adr-new; highest filename = ' + str(highest_file_name))
            # extract filename from path
             adr_index = int(os.path.basename(highest_file_name)[:4])
         except:
             #if no valid index (for example when running adr-init), make a new one
+            adr_print('adr-new; no valid index')
             adr_index = 0
         adr_print('adr-new; highest index = ' + str(adr_index))
         # increment index for new adr

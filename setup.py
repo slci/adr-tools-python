@@ -31,8 +31,5 @@ setuptools.setup(
      ],
      keywords=["adr","architecture decision record"],
      py_modules = ["adr_func","adr_new","adr_init","adr_config","adr_list"],
-     python_requires='>=3',
-     install_requires=[
-         'argparse'
-     ]
+     python_requires='>=3'
  )
